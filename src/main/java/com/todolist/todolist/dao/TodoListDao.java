@@ -3,6 +3,8 @@ package com.todolist.todolist.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.todolist.todolist.config.DBConnectionMgr;
 import com.todolist.todolist.vo.TodoListVo;
@@ -51,5 +53,36 @@ public class TodoListDao {
 		}
 		
 		return successCount;
+	}
+	
+	public List<TodoListVo> getTodoList() {
+		List<TodoListVo> list = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "select * from todolist_tb order by todolist_id DESC";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				TodoListVo todoListVo = TodoListVo.builder()
+						.todoListId(rs.getInt(1))
+						.todoListDate(rs.getString(2))
+						.todoListContent(rs.getString(3))
+						.todoListLike(rs.getInt(4))
+						.build();
+				
+				list.add(todoListVo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return list;
 	}
 }
