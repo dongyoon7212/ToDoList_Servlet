@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SearchTodoRespDto {
+public class UpdateTodoListRespDto {
+	private int successCount;
 	private int todoListId;
 	private String todoListDate;
 	private String todoListContent;

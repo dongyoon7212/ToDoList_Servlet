@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.todolist.todolist.service.TodoListService;
 import com.todolist.todolist.utils.ResponseEntity;
 
-@WebServlet("/getlist")
-public class SearchTodoServlet extends HttpServlet {
+@WebServlet("/getcompletelist")
+public class SearchCompleteTodoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TodoListService todoListService;
 
-    public SearchTodoServlet() {
+    public SearchCompleteTodoServlet() {
         super();
         todoListService = TodoListService.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("요청이 들어옴");
-		
-		ResponseEntity.ofJson(response, 200, todoListService.searchTodos());
+		System.out.println("요청");
+		ResponseEntity.ofJson(response, 200, todoListService.searchCompleteTodos());
 	}
 
 

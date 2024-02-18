@@ -7,29 +7,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.todolist.todolist.dto.InsertTodoListReqDto;
+import com.todolist.todolist.dto.UpdateTodoListReqDto;
 import com.todolist.todolist.service.TodoListService;
 import com.todolist.todolist.utils.RequestUtil;
 import com.todolist.todolist.utils.ResponseEntity;
 
-@WebServlet("/addition")
-public class InsertTodoServlet extends HttpServlet {
+@WebServlet("/update")
+public class UpdateTodoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TodoListService todoListService;
-
-    public InsertTodoServlet() {
+ 
+    public UpdateTodoServlet() {
         super();
         todoListService = TodoListService.getInstance();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		InsertTodoListReqDto reqDto = RequestUtil.convertJsonData(request, InsertTodoListReqDto.class);
+		UpdateTodoListReqDto reqDto = RequestUtil.convertJsonData(request, UpdateTodoListReqDto.class);
 		
-		ResponseEntity.ofJson(response, 201, todoListService.addTodo(reqDto));
+		ResponseEntity.ofJson(response, 201, todoListService.editTodo(reqDto));
 		
 		System.out.println(reqDto);
 		
-		System.out.println("요청이 들어옴!!");
+		System.out.println("update호출이 들어옴");
 	}
 
 }

@@ -10,5 +10,5 @@ public class InsertTodoListRespDto {
 	private int todoListId;
 	private String todoListDate;
 	private String todoListContent;
-	private int todoListLike;
+	private int todoListComplete;
 }

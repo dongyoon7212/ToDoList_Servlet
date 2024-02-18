@@ -2,6 +2,7 @@ package com.todolist.todolist.vo;
 
 import com.todolist.todolist.dto.InsertTodoListRespDto;
 import com.todolist.todolist.dto.SearchTodoRespDto;
+import com.todolist.todolist.dto.UpdateTodoListRespDto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ public class TodoListVo {
 	private int todoListId;
 	private String todoListDate;
 	private String todoListContent;
-	private int todoListLike;
+	private int todoListComplete;
 
 	public InsertTodoListRespDto toInsertDto(int successCount) {
 		return InsertTodoListRespDto.builder()
@@ -20,7 +21,7 @@ public class TodoListVo {
 				.todoListId(todoListId)
 				.todoListDate(todoListDate)
 				.todoListContent(todoListContent)
-				.todoListLike(todoListLike)
+				.todoListComplete(todoListComplete)
 				.build();
 	}
 	
@@ -29,7 +30,17 @@ public class TodoListVo {
 				.todoListId(todoListId)
 				.todoListDate(todoListDate)
 				.todoListContent(todoListContent)
-				.todoListLike(todoListLike)
+				.todoListComplete(todoListComplete)
+				.build();
+	}
+	
+	public UpdateTodoListRespDto toUpdateDto(int successCount) {
+		return UpdateTodoListRespDto.builder()
+				.successCount(successCount)
+				.todoListId(todoListId)
+				.todoListDate(todoListDate)
+				.todoListContent(todoListContent)
+				.todoListComplete(todoListComplete)
 				.build();
 	}
 }

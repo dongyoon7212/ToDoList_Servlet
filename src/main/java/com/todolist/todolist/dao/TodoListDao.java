@@ -38,7 +38,7 @@ public class TodoListDao {
 			
 			pstmt.setString(1, todoListVo.getTodoListDate());
 			pstmt.setString(2, todoListVo.getTodoListContent());
-			pstmt.setInt(3, todoListVo.getTodoListLike());
+			pstmt.setInt(3, todoListVo.getTodoListComplete());
 			
 			successCount = pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
@@ -52,6 +52,30 @@ public class TodoListDao {
 			pool.freeConnection(con, pstmt, rs);
 		}
 		
+		return successCount; 
+	}
+	
+	public int updateTodo(TodoListVo todoListVo) {
+		int successCount = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "update todolist_tb set todolist_content = ?, todolist_complete = ? where todolist_id = ?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, todoListVo.getTodoListContent());
+			pstmt.setInt(2, todoListVo.getTodoListComplete());
+			pstmt.setInt(3, todoListVo.getTodoListId());
+			
+			successCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		
 		return successCount;
 	}
 	
@@ -63,7 +87,7 @@ public class TodoListDao {
 		
 		try {
 			con = pool.getConnection();
-			String sql = "select * from todolist_tb order by todolist_id DESC";
+			String sql = "select * from todolist_tb where todolist_complete = 0 order by todolist_id DESC";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -72,7 +96,7 @@ public class TodoListDao {
 						.todoListId(rs.getInt(1))
 						.todoListDate(rs.getString(2))
 						.todoListContent(rs.getString(3))
-						.todoListLike(rs.getInt(4))
+						.todoListComplete(rs.getInt(4))
 						.build();
 				
 				list.add(todoListVo);
@@ -85,4 +109,36 @@ public class TodoListDao {
 		
 		return list;
 	}
+	
+	public List<TodoListVo> getCompleteTodoList() {
+		List<TodoListVo> list = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "select * from todolist_tb where todolist_complete = 1 order by todolist_id DESC";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				TodoListVo todoListVo = TodoListVo.builder()
+						.todoListId(rs.getInt(1))
+						.todoListDate(rs.getString(2))
+						.todoListContent(rs.getString(3))
+						.todoListComplete(rs.getInt(4))
+						.build();
+				
+				list.add(todoListVo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return list;
+	}
+
 }

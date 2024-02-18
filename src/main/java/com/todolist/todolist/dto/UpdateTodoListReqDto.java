@@ -7,13 +7,15 @@ import lombok.Data;
 
 @Data
 @Builder
-public class InsertTodoListReqDto {
+public class UpdateTodoListReqDto {
+	private int todoListId;
 	private String todoListDate;
 	private String todoListContent;
 	private int todoListComplete;
 	
 	public TodoListVo toTodo() {
 		return TodoListVo.builder()
+				.todoListId(todoListId)
 				.todoListDate(todoListDate)
 				.todoListContent(todoListContent)
 				.todoListComplete(todoListComplete)
