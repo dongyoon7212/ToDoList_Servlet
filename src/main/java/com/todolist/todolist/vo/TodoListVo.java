@@ -1,5 +1,7 @@
 package com.todolist.todolist.vo;
 
+import com.todolist.todolist.dto.CompleteDeleteTodoListRespDto;
+import com.todolist.todolist.dto.DeleteTodoListRespDto;
 import com.todolist.todolist.dto.InsertTodoListRespDto;
 import com.todolist.todolist.dto.SearchTodoRespDto;
 import com.todolist.todolist.dto.UpdateTodoListRespDto;
@@ -41,6 +43,18 @@ public class TodoListVo {
 				.todoListDate(todoListDate)
 				.todoListContent(todoListContent)
 				.todoListComplete(todoListComplete)
+				.build();
+	}
+	
+	public DeleteTodoListRespDto toDeleteDto(int successCount) {
+		return DeleteTodoListRespDto.builder()
+				.successCount(successCount)
+				.build();
+	}
+	
+	public CompleteDeleteTodoListRespDto toDeleteAllDto(int sccessCount) {
+		return CompleteDeleteTodoListRespDto.builder()
+				.successCount(sccessCount)
 				.build();
 	}
 }

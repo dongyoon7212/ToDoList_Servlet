@@ -79,6 +79,48 @@ public class TodoListDao {
 		return successCount;
 	}
 	
+	public int deleteTodo(TodoListVo todoListVo) {
+		int successCount = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "delete from todolist_tb where todolist_id = ?;";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, todoListVo.getTodoListId());
+			
+			successCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		
+		return successCount;
+	}
+	
+	public int completeDeleteTodo() {
+		int successCount = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "delete from todolist_tb where todolist_complete = 1;";
+			pstmt = con.prepareStatement(sql);
+						
+			successCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		
+		return successCount;
+	}
+	
 	public List<TodoListVo> getTodoList() {
 		List<TodoListVo> list = new ArrayList<>();
 		Connection con = null;
